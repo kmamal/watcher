@@ -16,7 +16,7 @@
     "update-exports": "node ./scripts/update-exports.mjs"
   },
   "dependencies": {
-    "@kmamal/globs": "^0.0.1",
+    "@kmamal/globs": "^0.0.3",
     "@kmamal/util": "^0.1.13"
   },
   "devDependencies": {

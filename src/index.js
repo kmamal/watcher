@@ -79,6 +79,7 @@ class Watcher extends EventEmitter {
 
 		const handleChange = (fsPath) => {
 			if (this._scheduled.has(fsPath)) { return }
+			if (!this._matcher.matchesPath(fsPath)) { return }
 			this._scheduled.add(fsPath)
 			setTimeout(() => {
 				this._scheduled.delete(fsPath)
