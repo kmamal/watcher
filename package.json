@@ -1,0 +1,22 @@
+{
+  "version": "0.0.0",
+  "name": "@kmamal/watcher",
+  "description": "watcher",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:kmamal/watcher.git"
+  },
+  "license": "MIT",
+  "main": "./src/index.js",
+  "exports": "./src/index.js",
+  "scripts": {
+    "test": "npx @kmamal/testing",
+    "update-exports": "node ./scripts/update-exports.mjs"
+  },
+  "dependencies": {
+    "@kmamal/util": "^0.1.13"
+  },
+  "devDependencies": {
+    "@kmamal/testing": "^0.0.24"
+  }
+}
