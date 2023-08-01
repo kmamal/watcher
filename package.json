@@ -8,12 +8,15 @@
   },
   "license": "MIT",
   "main": "./src/index.js",
-  "exports": "./src/index.js",
+  "exports": {
+    ".": "./src/index.js"
+  },
   "scripts": {
     "test": "npx @kmamal/testing",
     "update-exports": "node ./scripts/update-exports.mjs"
   },
   "dependencies": {
+    "@kmamal/globs": "^0.0.1",
     "@kmamal/util": "^0.1.13"
   },
   "devDependencies": {
