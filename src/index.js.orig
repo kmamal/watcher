@@ -1,5 +1,10 @@
+<<<<<<< HEAD
+const Fs = require('fs')
+const Path = require('path')
+=======
 const Fs = require('node:fs')
 const Path = require('node:path')
+>>>>>>> 83b467f (initial commit)
 const { EventEmitter } = require('events')
 const { Matcher } = require('@kmamal/globs/matcher')
 const { comm } = require('@kmamal/util/array/comm')
@@ -11,11 +16,19 @@ class Watcher extends EventEmitter {
 		this._throttling = options?.throttling ?? 100
 
 		this._matcher = new Matcher(glob, options)
+<<<<<<< HEAD
+		this._cache = new Map()
+		this._scheduled = new Set()
+
+		const addEntry = async (fsPath, props) => {
+			if (this._cache.has(fsPath)) { return }
+=======
 		this._entries = new Map()
 		this._scheduled = new Set()
 
 		const addEntry = async (fsPath, props) => {
 			if (this._entries.has(fsPath)) { return }
+>>>>>>> 83b467f (initial commit)
 			const stats = props?.stats ?? await Fs.promises.stats()
 			const isDir = props?.isDir ?? stats.isDirectory()
 			const path = props?.path ?? (isDir ? `${fsPath}/` : fsPath)
@@ -29,7 +42,11 @@ class Watcher extends EventEmitter {
 				contents = await Fs.promises.readdir(fsPath)
 				contents.sort()
 			}
+<<<<<<< HEAD
+			this._cache.set(fsPath, {
+=======
 			this._entries.set(fsPath, {
+>>>>>>> 83b467f (initial commit)
 				watcher,
 				ino: stats.ino,
 				mtimeMs: stats.mtimeMs,
@@ -59,13 +76,21 @@ class Watcher extends EventEmitter {
 		}
 
 		const removeEntry = (fsPath, props) => {
+<<<<<<< HEAD
+			const entry = props?.entry ?? this._cache.get(fsPath)
+=======
 			const entry = props?.entry ?? this._entries.get(fsPath)
+>>>>>>> 83b467f (initial commit)
 			if (!entry) { return }
 			const isDir = props?.isDir ?? Boolean(entry.contents)
 			const path = props?.isDir ?? (isDir ? `${fsPath}/` : fsPath)
 
 			entry.watcher.close()
+<<<<<<< HEAD
+			this._cache.delete(fsPath)
+=======
 			this._entries.delete(fsPath)
+>>>>>>> 83b467f (initial commit)
 
 			if (isDir && !props?.exhaustive) {
 				for (const name of entry.contents) {
@@ -88,7 +113,11 @@ class Watcher extends EventEmitter {
 		}
 
 		const _handleChange = async (fsPath) => {
+<<<<<<< HEAD
+			let entry = this._cache.get(fsPath)
+=======
 			const entry = this._entries.get(fsPath)
+>>>>>>> 83b467f (initial commit)
 
 			try {
 				const newStats = await Fs.promises.stat(fsPath)
@@ -100,7 +129,11 @@ class Watcher extends EventEmitter {
 
 				if (!entry || wasDir !== isDir || entry.ino !== newStats.ino) {
 					if (entry) { removeEntry(fsPath, { entry, path: oldPath, isDir: wasDir }) }
+<<<<<<< HEAD
+					entry = addEntry(fsPath, { stats: newStats, path: newPath, isDir })
+=======
 					addEntry(fsPath, { stats: newStats, path: newPath, isDir })
+>>>>>>> 83b467f (initial commit)
 					return
 				}
 
@@ -120,7 +153,11 @@ class Watcher extends EventEmitter {
 						addEntry(Path.join(fsPath, name))
 					}
 				}
+<<<<<<< HEAD
+			} catch (error) {
+=======
 			} catch (_) {
+>>>>>>> 83b467f (initial commit)
 				if (entry) { removeEntry(fsPath, { entry }) }
 			}
 		}
